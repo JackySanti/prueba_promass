@@ -1,0 +1,15 @@
+.files{
+    margin: 2rem 4rem 3rem 4rem; 
+}
+
+.image{
+    border: .2em solid rgba(50, 50, 50, 0.618);
+    border-style: dashed;
+    border-radius: 1em;
+
+    padding: 1em;
+}
+
+.iconfile{
+    color: rgba(50, 50, 50, 0.374);
+}
