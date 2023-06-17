@@ -110,7 +110,7 @@ function HTTPSRequest (action, data){
   })
   .then(response => response.json())
   .then(response => {
-    if (response.error == false) {
+    if (response.error != false) {
       return Swal.fire({
         icon: 'error',
         title: 'Error',
@@ -118,40 +118,54 @@ function HTTPSRequest (action, data){
         showConfirmButton: false,
         timer: 2500
       });
-
-    } else {
-      if(response.result){
-        if(modal == undefined) modal = new Modal(document.getElementById('authentication-modal'), options);
-        
-        // Tittle
-        document.getElementById('tittleModal').innerHTML = 'Actualizar Producto';
-
-        // Inputs
-        document.getElementById('id').value      = response.result.id;
-        document.getElementById('barcode').value = response.result.barcode;
-        document.getElementById('name').value    = response.result.name;
-        document.getElementById('brand').value   = response.result.brand;
-        document.getElementById('price').value   = response.result.price;
-        document.getElementById('unit').value    = response.result.unit;
-        document.getElementById('stock').value   = response.result.stock;
-
-        $('#btnAdd').addClass('hidden');
-        $('#btnUpdate').removeClass('hidden');
-
-        modal.show();
-
-      } else {
-        Swal.fire({
-          icon: 'success',
-          title: '¡Información completa!',
-          text: response.message,
-          showConfirmButton: false,
-          timer: 2000
-        });
-
-        modal.hide();
-      }
     }
+
+    if(response.result){
+      if(modal == undefined) modal = new Modal(document.getElementById('authentication-modal'), options);
+      
+      // Tittle
+      document.getElementById('tittleModal').innerHTML = 'Actualizar Producto';
+
+      // Inputs
+      document.getElementById('id').value      = response.result.id;
+      document.getElementById('barcode').value = response.result.barcode;
+      document.getElementById('name').value    = response.result.name;
+      document.getElementById('brand').value   = response.result.brand;
+      document.getElementById('price').value   = response.result.price;
+      document.getElementById('unit').value    = response.result.unit;
+      document.getElementById('stock').value   = response.result.stock;
+
+      $('#btnAdd').addClass('hidden');
+      $('#btnUpdate').removeClass('hidden');
+
+      modal.show();
+
+      return;
+    } 
+
+    document.getElementById('totalProducts').innerHTML = response.total;
+
+    if(action == 'filterProducts'){
+      document.getElementById('cardPrincipal').innerHTML = '';
+      document.getElementById('containerCard').innerHTML = response.html;
+
+      return;
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: '¡Información completa!',
+      text: response.message,
+      showConfirmButton: false,
+      timer: 2000
+    });
+
+    document.getElementById('cardPrincipal').innerHTML = '';
+    document.getElementById('containerCard').innerHTML = response.html;
+    
+    modal.hide();
+
+    return;
   })
   .catch(error => console.error('Error:', error))
 }

@@ -14,7 +14,7 @@ use App\Http\Controllers\ProductsController;
 |
 */
 
-Route::get('/',                [ProductsController::class, 'show']);
+Route::get('/',                [ProductsController::class, 'show']);    
 Route::post('/filterProducts', [ProductsController::class, 'filterProducts']);
 Route::post('/searchProduct',  [ProductsController::class, 'searchProduct']);
 Route::post('/add',            [ProductsController::class, 'store']);

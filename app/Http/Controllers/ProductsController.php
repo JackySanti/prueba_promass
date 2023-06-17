@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
+
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
 
@@ -46,13 +50,17 @@ class ProductsController extends Controller
             if($request->f_brand)   array_push($conditions, ['brand','LIKE',"%{$request->f_brand}%"]);
 
             if(count($conditions) > 0) $product = Products::where($conditions)->get();  
-            else $productos = Products::all();
+            else $product = Products::all();
 
-            var_dump($product);
+            $totalProductos = count($product);
+            $arreglo = ["productos" => $product];
+            $html = View::make('layouts.cards', ['arreglo' => $arreglo])->render();
+
             return array(  
                 'error'   => false, 
                 'message' => '', 
-                'result'  => $product,
+                'total'   => $totalProductos, 
+                'html'    => $html,
                 'code'    => 200
             );
 
@@ -101,11 +109,20 @@ class ProductsController extends Controller
 
                 $product->save();
 
+                $totalProductos = Products::count();
+                $productos = Products::all();
+
+                $arreglo = ["productos" => $productos];
+                $html = View::make('layouts.cards', ['arreglo' => $arreglo])->render();
+
                 return array(  
                     'error'   => false, 
-                    'message' => 'Se almacenó el producto correctamente.', 
+                    'message' => 'Se almacenó el producto correctamente.',
+                    'total'   => $totalProductos, 
+                    'html'    => $html,
                     'code'    => 200
                 );
+
             } else {
                 return array(  
                     'error'   => true, 
@@ -140,10 +157,18 @@ class ProductsController extends Controller
                 $product->updated_at =  date("d-m-Y h:i:s");
 
                 $product->save();
+                
+                $totalProductos = Products::count();
+                $productos = Products::all();
+
+                $arreglo = ["productos" => $productos];
+                $html = View::make('layouts.cards', ['arreglo' => $arreglo])->render();
 
                 return array(  
                     'error'   => false, 
                     'message' => 'Se actualizó el producto correctamente.', 
+                    'total'   => $totalProductos, 
+                    'html'    => $html,
                     'code'    => 200
                 );
 
@@ -160,10 +185,18 @@ class ProductsController extends Controller
                 $product->updated_at =  date("d-m-Y h:i:s");
 
                 $product->save();
+                
+                $totalProductos = Products::count();
+                $productos = Products::all();
+
+                $arreglo = ["productos" => $productos];
+                $html = View::make('layouts.cards', ['arreglo' => $arreglo])->render();
 
                 return array(  
                     'error'   => false, 
                     'message' => 'Se actualizó el producto correctamente.', 
+                    'total'   => $totalProductos, 
+                    'html'    => $html,
                     'code'    => 200
                 );
             }
@@ -178,9 +211,17 @@ class ProductsController extends Controller
             $product = Products::find($request->id);
             $product->delete();
 
+            $totalProductos = Products::count();
+            $productos = Products::all();
+
+            $arreglo = ["productos" => $productos];
+            $html = View::make('layouts.cards', ['arreglo' => $arreglo])->render();
+
             return array(  
                 'error'   => false, 
                 'message' => 'Se eliminó el producto correctamente.',
+                'total'   => $totalProductos, 
+                'html'    => $html,
                 'code'    => 200
             );
 

@@ -31,10 +31,8 @@
     <!-- Url -->
     <input id="url" name="url" type="text" value="{{asset('')}}" hidden>
 
-
     <!-- Show -->
     <h3 class="mt-5 ml-10 text-2xl font-bold text-[#900C3F]">Stock de Productos</h3>
-
 
     <div class="py-10">
         <div class="max-w-full mx-auto sm:px-6 lg:px-8">
@@ -62,22 +60,21 @@
                         </div>
                     </form>
 
-                    <p class="mr-2 mb-2 text-left">Total de productos: <strong>{{$arreglo['totalProductos']}}</strong>.</p>
+                    <p class="mr-2 mb-2 text-left">Total de productos: <strong id="totalProducts">{{$arreglo['totalProductos']}}</strong>.</p>
                 </div>
             </div>
         </div>
     </div>
-
-
 
     <div class="mr-10 text-right">
         <button id="btn_new" data-modal-target="authentication-modal" class="text-white bg-[#FFC300] flex justify-center font-medium rounded-lg text-sm px-5 py-2.5 w-64 text-center inline-flex items-center mr-2" onclick="createModal()">Nuevo Producto</button>
     </div>
 
     @if($arreglo['totalProductos'] > 0)
-        @extends('layouts.cards')   
+        <div id="containerCard">
+            @extends('layouts.cards')   
+        </div>
     @else
-
         <div class="py-10">
             <div class="max-w-full mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -88,7 +85,6 @@
             </div>
         </div>
     @endif
-
 
     <!-- Add / Update Modal-->
     <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -178,7 +174,6 @@
             </div>
         </div>
     </div> 
-
 
     <!-- Scripts -->
     <script src="{{ asset('js/preview.js') }}"></script>
